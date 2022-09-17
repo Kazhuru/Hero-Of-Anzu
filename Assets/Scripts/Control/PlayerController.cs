@@ -35,7 +35,9 @@ namespace RPG.Control
                 if (hit.transform.TryGetComponent<CombatTarget>(out var combatTarget))
                 {
                     if (Input.GetMouseButtonDown(0))
+                    {
                         fighter.Attack(combatTarget);
+                    }
                     validInteraction = true;
                     break;
                 }
@@ -50,8 +52,7 @@ namespace RPG.Control
             {
                 if (Input.GetMouseButton(0))
                 {
-                    mover.MoveTo(raycastHit.point);
-                    fighter.ClearTarget();
+                    mover.StartMoveAction(raycastHit.point);
                 }
                 validInteraction = true;
             }

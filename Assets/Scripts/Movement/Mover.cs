@@ -3,18 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using RPG.Core;
 
 namespace RPG.Movement
 {
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour, IAction
     {
         private NavMeshAgent navmesh;
         private Animator playerAnim;
+        private ActionScheduler scheduler;
 
-        void Start()
+        private void Awake()
         {
             navmesh = GetComponent<NavMeshAgent>();
             playerAnim = GetComponent<Animator>();
+            scheduler = GetComponent<ActionScheduler>();
         }
 
         void Update()
@@ -22,13 +25,19 @@ namespace RPG.Movement
             UpdateAnimator();
         }
 
+        public void StartMoveAction(Vector3 position)
+        {
+            scheduler.StartAction(this);
+            MoveTo(position);
+        }
+        
         public void MoveTo(Vector3 position)
         {
             navmesh.destination = position;
             navmesh.isStopped = false;
         }
 
-        public void Stop()
+        public void Cancel()
         {
             navmesh.isStopped = true;
         }
