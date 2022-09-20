@@ -35,10 +35,11 @@ namespace RPG.Combat
 
         private void Update()
         {
-            if (target == null || target.GetIsDead()) { return; }
+            if (!TargetIsValid()) { return; }
             if (!GetIsInRange())
             {
                 mover.MoveTo(target.transform.position);
+                StopAttackRoutine();
             }
             else
             {
@@ -51,7 +52,6 @@ namespace RPG.Combat
         {
             if (isOnAttackRoutine) { return; }
             isOnAttackRoutine = true;
-            transform.LookAt(target.transform);
             attackRoutine = StartCoroutine(AttacksRoutine());
         }
 
@@ -59,10 +59,10 @@ namespace RPG.Combat
         {
             while (isOnAttackRoutine)
             {
-                if (target != null && !target.GetIsDead())
+                if (TargetIsValid())
                 {
-                    animator.ResetTrigger("stopAttack");
-                    animator.SetTrigger("attack");
+                    transform.LookAt(target.transform);
+                    StartAttackAnimation();
                 }
                 yield return new WaitForSeconds(attackInterval);
             }
@@ -73,7 +73,7 @@ namespace RPG.Combat
             return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
         }
 
-        public void Attack(CombatTarget combatTarget)
+        public void Attack(GameObject combatTarget)
         {
             scheduler.StartAction(this);
             target = combatTarget.GetComponent<Health>();
@@ -82,20 +82,38 @@ namespace RPG.Combat
         public void Cancel()
         {
             target = null;
+            StopAttackRoutine();
+        }
+
+        private void StopAttackRoutine()
+        {
+            StopAttackAnimation();
+            if (attackRoutine != null) { StopCoroutine(attackRoutine); }
             isOnAttackRoutine = false;
-            StopCoroutine(attackRoutine);
+        }
+
+        private void StopAttackAnimation()
+        {
             animator.ResetTrigger("attack");
             animator.SetTrigger("stopAttack");
+        }
 
+        private void StartAttackAnimation()
+        {
+            animator.ResetTrigger("stopAttack");
+            animator.SetTrigger("attack");
+        }
+
+        public bool TargetIsValid()
+        {
+            return target != null && !target.IsDead();
         }
 
         //Animation Event
         public void Hit()
         {
-            if (target != null) { target.TakeDamage(weaponDamage); }
-            if (target == null || target.GetIsDead()) { Cancel(); }
+            if (TargetIsValid()) { target.TakeDamage(weaponDamage); }
+            if (target != null && target.IsDead()) { Cancel(); }
         }
     }
 }
-
-
