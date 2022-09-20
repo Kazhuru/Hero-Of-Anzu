@@ -12,8 +12,8 @@ namespace RPG.Combat
         [SerializeField] private float attackInterval;
         [SerializeField] private float weaponDamage = 20;
 
-        private Transform target;
-        private Animator playerAnim;
+        private Health target;
+        private Animator animator;
         private Mover mover;
         private ActionScheduler scheduler;
 
@@ -23,7 +23,7 @@ namespace RPG.Combat
 
         private void Awake()
         {
-            playerAnim = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
             mover = GetComponent<Mover>();
             scheduler = GetComponent<ActionScheduler>();
         }
@@ -35,45 +35,48 @@ namespace RPG.Combat
 
         private void Update()
         {
-            if (target == null) return;
-
+            if (target == null || target.GetIsDead()) { return; }
             if (!GetIsInRange())
             {
-                mover.MoveTo(target.position);
+                mover.MoveTo(target.transform.position);
             }
             else
             {
                 mover.Cancel();
-                AttackBehaviour();
+                StartAttackBehaviour();
             }
-
         }
 
-        private void AttackBehaviour()
+        private void StartAttackBehaviour()
         {
-            if (isOnAttackRoutine) return;
+            if (isOnAttackRoutine) { return; }
             isOnAttackRoutine = true;
-            attackRoutine = StartCoroutine(AttacksIntervalRoutine());
+            transform.LookAt(target.transform);
+            attackRoutine = StartCoroutine(AttacksRoutine());
         }
 
-        private IEnumerator AttacksIntervalRoutine()
+        private IEnumerator AttacksRoutine()
         {
             while (isOnAttackRoutine)
             {
-                playerAnim.SetTrigger("attack");
+                if (target != null && !target.GetIsDead())
+                {
+                    animator.ResetTrigger("stopAttack");
+                    animator.SetTrigger("attack");
+                }
                 yield return new WaitForSeconds(attackInterval);
             }
         }
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, target.position) < weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
         }
 
         public void Attack(CombatTarget combatTarget)
         {
             scheduler.StartAction(this);
-            target = combatTarget.transform;
+            target = combatTarget.GetComponent<Health>();
         }
 
         public void Cancel()
@@ -81,16 +84,16 @@ namespace RPG.Combat
             target = null;
             isOnAttackRoutine = false;
             StopCoroutine(attackRoutine);
+            animator.ResetTrigger("attack");
+            animator.SetTrigger("stopAttack");
+
         }
 
         //Animation Event
         public void Hit()
         {
-            if (target != null)
-            {
-                Health targetHealth = target.GetComponent<Health>();
-                if (targetHealth != null) targetHealth.TakeDamage(weaponDamage);
-            }
+            if (target != null) { target.TakeDamage(weaponDamage); }
+            if (target == null || target.GetIsDead()) { Cancel(); }
         }
     }
 }

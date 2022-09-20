@@ -10,13 +10,13 @@ namespace RPG.Movement
     public class Mover : MonoBehaviour, IAction
     {
         private NavMeshAgent navmesh;
-        private Animator playerAnim;
+        private Animator animator;
         private ActionScheduler scheduler;
 
         private void Awake()
         {
             navmesh = GetComponent<NavMeshAgent>();
-            playerAnim = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
             scheduler = GetComponent<ActionScheduler>();
         }
 
@@ -30,7 +30,7 @@ namespace RPG.Movement
             scheduler.StartAction(this);
             MoveTo(position);
         }
-        
+
         public void MoveTo(Vector3 position)
         {
             navmesh.destination = position;
@@ -46,7 +46,7 @@ namespace RPG.Movement
         {
             Vector3 localVelocity = transform.InverseTransformDirection(navmesh.velocity);
             float speed = Math.Abs(localVelocity.z);
-            playerAnim.SetFloat("fowardSpeed", speed);
+            animator.SetFloat("fowardSpeed", speed);
         }
     }
 }

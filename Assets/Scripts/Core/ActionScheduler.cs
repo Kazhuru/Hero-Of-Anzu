@@ -10,10 +10,9 @@ namespace RPG.Core
 
         public void StartAction(IAction action)
         {
-            if (action == currentAction) return;
+            if (action == currentAction) { return; }
             if (currentAction != null)
             {
-                Debug.Log("Scheduler: action canceled " + currentAction);
                 currentAction.Cancel();
             }
             currentAction = action;

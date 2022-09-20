@@ -20,8 +20,8 @@ namespace RPG.Control
 
         private void Update()
         {
-            if (CombatInteractions()) return;
-            if (MovementInteractions()) return;
+            if (CombatInteractions()) { return; }
+            if (MovementInteractions()) { return; }
 
             Debug.Log("Nothing to do..");
         }
@@ -42,7 +42,7 @@ namespace RPG.Control
                     break;
                 }
             }
-            return validInteraction;        
+            return validInteraction;
         }
 
         private bool MovementInteractions()
@@ -63,5 +63,7 @@ namespace RPG.Control
         {
             return Camera.main.ScreenPointToRay(Input.mousePosition);
         }
+
+        public Fighter GetPlayerFighter() { return fighter; }
     }
 }
