@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
+using RPG.Core;
 
 namespace RPG.Control
 {
@@ -11,15 +12,18 @@ namespace RPG.Control
     {
         private Mover mover;
         private Fighter fighter;
+        private Health health;
 
         private void Awake()
         {
             mover = GetComponent<Mover>();
             fighter = GetComponent<Fighter>();
+            health = GetComponent<Health>();
         }
 
         private void Update()
         {
+            if (health.IsDead()) { return; }
             if (CombatInteractions()) { return; }
             if (MovementInteractions()) { return; }
 
@@ -36,7 +40,7 @@ namespace RPG.Control
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        fighter.Attack(combatTarget);
+                        fighter.Attack(combatTarget.gameObject);
                     }
                     validInteraction = true;
                     break;

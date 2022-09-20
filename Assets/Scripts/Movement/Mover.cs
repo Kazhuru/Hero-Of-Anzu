@@ -39,7 +39,7 @@ namespace RPG.Movement
 
         public void Cancel()
         {
-            navmesh.isStopped = true;
+            if (navmesh.enabled) { navmesh.isStopped = true; }
         }
 
         private void UpdateAnimator()

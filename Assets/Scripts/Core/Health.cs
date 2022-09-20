@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace RPG.Combat
+namespace RPG.Core
 {
     public class Health : MonoBehaviour
     {
@@ -11,6 +11,8 @@ namespace RPG.Combat
         private Animator animator;
         private CapsuleCollider capsuleCollider;
         private NavMeshAgent navMeshAgent;
+        private ActionScheduler scheduler;
+
         private bool isDead;
 
         private void Awake()
@@ -18,6 +20,7 @@ namespace RPG.Combat
             animator = GetComponent<Animator>();
             capsuleCollider = GetComponent<CapsuleCollider>();
             navMeshAgent = GetComponent<NavMeshAgent>();
+            scheduler = GetComponent<ActionScheduler>();
         }
 
         private void Start()
@@ -43,8 +46,9 @@ namespace RPG.Combat
             isDead = true;
             capsuleCollider.enabled = false;
             navMeshAgent.enabled = false;
+            scheduler.CancelCurrentAction();
         }
 
-        public bool GetIsDead() { return isDead; }
+        public bool IsDead() { return isDead; }
     }
 }
