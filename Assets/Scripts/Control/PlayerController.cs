@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using RPG.Movement;
 using RPG.Combat;
 using RPG.Core;
@@ -38,7 +39,7 @@ namespace RPG.Control
             {
                 if (hit.transform.TryGetComponent<CombatTarget>(out var combatTarget))
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (Mouse.current.leftButton.isPressed)
                     {
                         fighter.Attack(combatTarget.gameObject);
                     }
@@ -54,7 +55,7 @@ namespace RPG.Control
             bool validInteraction = false;
             if (Physics.Raycast(GetMouseRay(), out RaycastHit raycastHit))
             {
-                if (Input.GetMouseButton(0))
+                if (Mouse.current.leftButton.isPressed)
                 {
                     mover.StartMoveAction(raycastHit.point);
                 }
@@ -65,7 +66,7 @@ namespace RPG.Control
 
         private static Ray GetMouseRay()
         {
-            return Camera.main.ScreenPointToRay(Input.mousePosition);
+            return Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         }
 
         public Fighter GetPlayerFighter() { return fighter; }
