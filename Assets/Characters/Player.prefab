@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 537716885, guid: 550955e5bd5278644b45e58e409cf4de, type: 3}
       propertyPath: m_Acceleration
-      value: 12
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 537716885, guid: 550955e5bd5278644b45e58e409cf4de, type: 3}
       propertyPath: m_AngularSpeed
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85081c5c5ea58d24eb375b4fce71f52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
+  health: 350
 --- !u!114 &7946981455537652776
 MonoBehaviour:
   m_ObjectHideFlags: 0

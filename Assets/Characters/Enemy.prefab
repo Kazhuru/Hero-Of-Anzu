@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 5699415378031380723, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
       propertyPath: m_Name
-      value: Enemy (2)
+      value: Enemy (0)
       objectReference: {fileID: 0}
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.645327
+      value: -22.805412
       objectReference: {fileID: 0}
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
@@ -30,12 +30,12 @@ PrefabInstance:
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.84968
+      value: 22.766617
       objectReference: {fileID: 0}
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.62912494
+      value: -0.0302323
       objectReference: {fileID: 0}
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
@@ -45,7 +45,7 @@ PrefabInstance:
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.77730423
+      value: -0.9995429
       objectReference: {fileID: 0}
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
@@ -60,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -102.029
+      value: -183.465
       objectReference: {fileID: 0}
     - target: {fileID: 6141121700051126515, guid: 550955e5bd5278644b45e58e409cf4de,
         type: 3}
@@ -1504,6 +1504,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseRange: 6
   suspiciousTime: 4
+  patrolPath: {fileID: 0}
+  patrolSpeed: 2
+  runningSpeed: 4
+  patrolDwellingTime: 2
 --- !u!114 &560616986851402793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1516,7 +1520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85081c5c5ea58d24eb375b4fce71f52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 50
 --- !u!114 &1807357415183125534
 MonoBehaviour:
   m_ObjectHideFlags: 0
